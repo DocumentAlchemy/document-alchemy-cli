@@ -43,12 +43,32 @@ class BaseCommand
   log:log
 
   _process_get_and_write_response:(argv,options)=>
-    @log.debug "submitting:",options
+    @log.debug "GETting:",options
     if argv.out?
       out = fs.createWriteStream(argv.out,'binary')
     else
       out = process.stdout
     req = request.get options
+    req.on 'response', (response)=>
+      unless /^2[0-9][0-9]$/.test response?.statusCode
+        @log.error "Expected 2XX-series status code. Found #{response?.statusCode}."
+        if not argv['api-key'] and /^401$/.test response?.statusCode
+          @log.error "The 401 (Unauthorized) response is probably because"
+          @log.error "you did not supply an API Key."
+          @log.error "Use '-a <KEY>' to specify a key on the command line,"
+          @log.error "or run '#{@exe} --xhelp' for more information.\n"
+        process.exit 1
+    req.pipe(out,{encoding:"binary"})
+
+  _process_post_file_and_write_response:(argv,options,file_field,file_path)=>
+    @log.debug "POSTing:",options,file_path
+    if argv.out?
+      out = fs.createWriteStream(argv.out,'binary')
+    else
+      out = process.stdout
+    req = request.post options
+    form = req.form()
+    form.append(file_field, fs.createReadStream(file_path))
     req.on 'response', (response)=>
       unless /^2[0-9][0-9]$/.test response?.statusCode
         @log.error "Expected 2XX-series status code. Found #{response?.statusCode}."
