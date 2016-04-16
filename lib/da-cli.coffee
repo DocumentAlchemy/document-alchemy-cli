@@ -60,7 +60,7 @@ class DaCli
           if warnings?.length > 0
             for warning in warnings
               LOG.warning warning
-          unless @argv["api-key"]?
+          if not @argv["api-key"]? and not @argv.help and not @argv.version
             console.error ""
             LOG.warning "No API Key value was set. This is likely to lead to an error."
             LOG.warning "Be sure to pass '-a <KEY>', or run"
