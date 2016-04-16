@@ -75,6 +75,8 @@ class Capture extends BaseCommand
 
   _make_builder:(config)=>
     (subargs)=>
+      config ?= {}
+      config.capture ?= {}
       subargs.options {
         "f": { group:"Command-Specific Parameters", alias:"format",                choices:["png","jpg"], requiresArg:true,  default:(config.capture["format"] ? "png"), describe:"type of image file to create#{@nad}"                     }
         "w": { group:"Command-Specific Parameters", alias:["bw","browser-width"],  number:true,           requiresArg:true,  default:(config.capture["bw"] ? 1024),      describe:"width of the browser's \"viewport\", in pixels#{@nad}"   }
@@ -107,20 +109,6 @@ class Capture extends BaseCommand
     for n in ['bw','bh','iw','ih','ei','ttl','store']
       if argv[n]?
         options.qs[n] = argv[n]
-    if argv.out?
-      out = fs.createWriteStream(argv.out,'binary')
-    else
-      out = process.stdout
-    @log.debug "submitting:",options
-    req = request.get options
-    req.on 'response', (response)=>
-      unless /^2[0-9][0-9]$/.test response?.statusCode
-        @log.error "Expected 2XX-series status code. Found #{response?.statusCode}."
-        if not argv['api-key'] and /^401$/.test response?.statusCode
-          @log.error "The 401 (Unauthorized) response is probably because you did not supply an API Key."
-          @log.error "Use '-a <KEY>' to specify a key on the command line,"
-          @log.error "or run '#{@exe} --xhelp' for more information.\n"
-        process.exit 1
-    req.pipe(out,{encoding:"binary"})
+    @_process_get_and_write_response(argv,options)
 
 module.exports = new Capture()

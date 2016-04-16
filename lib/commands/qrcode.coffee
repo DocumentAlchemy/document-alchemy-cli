@@ -85,6 +85,8 @@ class QrCode extends BaseCommand
 
   _make_builder:(config)=>
     (subargs)=>
+      config ?= {}
+      config.qrcode ?= {}
       subargs.options {
         "z": { group:"Command-Specific Parameters", alias:["w","size","width"],  number:true, requiresArg:true, default:(config.qrcode.z ? 400), describe:"size (height and width) of the generated image, in pixels#{@nad}"   }
         "e": { group:"Command-Specific Parameters", alias:["ecl"], choices:["l","m","q","h"], requiresArg:true, default:(config.qrcode.e ? "h"), describe:"error-correction level, from 'l' is the lowest level, 'h' is the highest level" }
@@ -108,21 +110,6 @@ class QrCode extends BaseCommand
     for n in ['size','ecl','border','fg','bg','ttl','store']
       if argv[n]?
         options.qs[n] = argv[n]
-    @log.debug "submitting:",options
-    if argv.out?
-      out = fs.createWriteStream(argv.out,'binary')
-    else
-      out = process.stdout
-    req = request.get options
-    req.on 'response', (response)=>
-      unless /^2[0-9][0-9]$/.test response?.statusCode
-        @log.error "Expected 2XX-series status code. Found #{response?.statusCode}."
-        if not argv['api-key'] and /^401$/.test response?.statusCode
-          @log.error "The 401 (Unauthorized) response is probably because"
-          @log.error "you did not supply an API Key."
-          @log.error "Use '-a <KEY>' to specify a key on the command line,"
-          @log.error "or run '#{@exe} --xhelp' for more information.\n"
-        process.exit 1
-    req.pipe(out,{encoding:"binary"})
+    @_process_get_and_write_response(argv,options)
 
 module.exports = new QrCode()

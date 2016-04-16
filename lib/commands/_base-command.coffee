@@ -5,6 +5,7 @@ IS_INSTRUMENTED         = fs.existsSync( path.join(HOMEDIR,'lib-cov') )
 LIB_DIR                 = if IS_INSTRUMENTED then path.join(HOMEDIR,'lib-cov') else path.join(HOMEDIR,'lib')
 log                     = require(path.join(LIB_DIR,"logger")).INSTANCE
 Shared                  = require(path.join(LIB_DIR,"shared"))
+request                 = require 'request'
 
 class BaseCommand
 
@@ -40,5 +41,23 @@ class BaseCommand
   url_base:Shared.url_base
   nad:Shared.nad
   log:log
+
+  _process_get_and_write_response:(argv,options)=>
+    @log.debug "submitting:",options
+    if argv.out?
+      out = fs.createWriteStream(argv.out,'binary')
+    else
+      out = process.stdout
+    req = request.get options
+    req.on 'response', (response)=>
+      unless /^2[0-9][0-9]$/.test response?.statusCode
+        @log.error "Expected 2XX-series status code. Found #{response?.statusCode}."
+        if not argv['api-key'] and /^401$/.test response?.statusCode
+          @log.error "The 401 (Unauthorized) response is probably because"
+          @log.error "you did not supply an API Key."
+          @log.error "Use '-a <KEY>' to specify a key on the command line,"
+          @log.error "or run '#{@exe} --xhelp' for more information.\n"
+        process.exit 1
+    req.pipe(out,{encoding:"binary"})
 
 exports.BaseCommand = BaseCommand
