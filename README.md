@@ -36,7 +36,7 @@ For even more information, visit us at <https://documentalchemy.com/>
 
 ### Licensing
 
-This module is made available under an MIT license, as described in [LICENSE.TXT](https://github.com/DocumentAlchemy/dust-engine/blob/master/LICENSE.TXT).
+This module is made available under an MIT license, as described in [LICENSE.TXT](https://github.com/DocumentAlchemy/document-alchemy-cli/blob/master/LICENSE.TXT).
 
 ## About DocumentAlchemy
 
