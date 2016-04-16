@@ -8,9 +8,6 @@ Util                    = require('inote-util').Util
 request                 = require 'request'
 BaseCommand             = require(path.join(LIB_DIR,"commands","_base-command")).BaseCommand
 Shared                  = require(path.join(LIB_DIR,"shared"))
-# NAD                     = Shared.nad
-# EXE                     = Shared.exe
-# URL_BASE                = Shared.url_base
 
 class Capture extends BaseCommand
 
