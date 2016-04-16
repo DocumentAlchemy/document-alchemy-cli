@@ -29,14 +29,31 @@ class Capture extends BaseCommand
     See <https://documentalchemy.com/api-doc> for more information about this endpoint and other document-processing API methods.
 
     """
-    console.log "A SIMPLE EXAMPLE\n"
+    console.log "EXAMPLES\n"
     console.log Shared.wrap """
-    > #{@exe} capture https://google.com/ -o capture.png -a dO6M2p9sKRMGQYub
+    The command:
+
+    > #{@exe} capture https://google.com/ -o capture.png \\
+        -a dO6M2p9sKRMGQYub
 
     where:
     - 'https://google.com/' is the URL to capture
     - 'capture.png' is the file to save the generated image to, and
-    - 'dO6M2p9sKRMGQYub' is your DocumentAlchemy API Key.
+    - 'dO6M2p9sKRMGQYub' is your DocumentAlchemy API Key
+    will generate a file named 'capture.png' containing a screenshot of 'https://google.com/' at the default resolution and size.
+
+    > #{@exe} capture https://google.com/ -o capture.png \\
+        -bw 1200 -iw 400 -a dO6M2p9sKRMGQYub
+
+    The command:
+
+    where:
+    - 'https://google.com/' is the URL to capture
+    - 'capture.png' is the file to save the generated image to,
+    - '1200' is the width of the browser viewport,
+    - '400' is the desired width of the output image, and
+    - 'dO6M2p9sKRMGQYub' is your DocumentAlchemy API Key
+    will generate a file named 'capture.png' containing a screenshot of 'https://google.com/' at 1200 pixels wide, and then scale that image to be 400 pixels wide.
 
     """
 

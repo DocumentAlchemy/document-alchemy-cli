@@ -18,7 +18,7 @@
     "yargs"                    : "^4.4",
     "os-homedir"               : "^1.0",
     "request"                  : "^2.71",
-    "termstyle"                : "^0.2"
+    "termstyle"                : "^0.2.1"
   },
   "devDependencies": {
     "coffee-19-jshint"         : "^2.3",

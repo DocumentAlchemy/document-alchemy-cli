@@ -28,8 +28,7 @@ class BaseCommand
     return cmd
 
   extended_help:()=>
-    console.log ""
-    Shared.show_help()
+    Shared.show_help("#{@_command()} - #{@_describe()}")
     @_extended_help()
 
   _arg_check:(argv)=>

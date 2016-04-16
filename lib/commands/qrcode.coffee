@@ -6,17 +6,16 @@ IS_INSTRUMENTED         = fs.existsSync( path.join(HOMEDIR,'lib-cov') )
 LIB_DIR                 = if IS_INSTRUMENTED then path.join(HOMEDIR,'lib-cov') else path.join(HOMEDIR,'lib')
 Util                    = require('inote-util').Util
 request                 = require 'request'
-LOG                     = require(path.join(LIB_DIR,"logger")).INSTANCE
+BaseCommand             = require(path.join(LIB_DIR,"commands","_base-command")).BaseCommand
 Shared                  = require(path.join(LIB_DIR,"shared"))
-NAD                     = Shared.nad
-EXE                     = Shared.exe
-URL_BASE                = Shared.url_base
 
-module.exports = {
+class QrCode extends BaseCommand
 
-  extended_help: ()=>
-    console.log ""
-    Shared.show_help()
+  _command:()=>"qrcode <DATA>"
+
+  _describe:()=>"generate a QR code"
+
+  _extended_help: ()=>
     console.log "\nABOUT THIS COMMAND\n"
     console.log Shared.wrap """
     The 'qrcode' command generates a PNG image encoding the specified data as QR code by invoking the '/data/-/rendition/qr.png' endpoint.
@@ -40,18 +39,36 @@ module.exports = {
     See <https://documentalchemy.com/api-doc> for more information about this endpoint and other document-processing API methods.
 
     """
-    console.log "A SIMPLE EXAMPLE\n"
+    console.log "EXAMPLES\n"
     console.log Shared.wrap """
-    > #{EXE} qrcode "Hello World!" -o hello.png -a dO6M2p9sKRMGQYub
+      The command:
 
-    where:
-    - 'Hello World!' is the text to encode,
-    - 'hello.png' is the file to save the generated image to, and
-    - 'dO6M2p9sKRMGQYub' is your DocumentAlchemy API Key.
+      > #{@exe} qrcode "Hello World!" -o hello.png -a dO6M2p9sKRMGQYub
+
+      where:
+      - 'Hello World!' is the text to encode,
+      - 'hello.png' is the file to save the generated image to, and
+      - 'dO6M2p9sKRMGQYub' is your DocumentAlchemy API Key.
+
+      generates a file named 'hello.png' containing a PNG image encoding the text 'Hello World!'.
+
+      The command:
+
+      > #{@exe} qrcode "http://example.com/" -s 600 -e m \\
+          --no-border -a dO6M2p9sKRMGQYub
+
+      where:
+      - 'http://example.com/' is the text to encode,
+      - '600' is size (width and height) of the generated image, in pixels
+      - 'm' is the error-correction level (medium)
+      - 'dO6M2p9sKRMGQYub' is your DocumentAlchemy API Key.
+
+      writes a 600x600 PNG image encoding the URL 'http://example.com' to stdout.
 
     """
 
-  config_params: {
+
+  config_params:{
     "qrcode": [
       /^qrcode$/i
       ((v)=>
@@ -66,53 +83,46 @@ module.exports = {
     ]
   }
 
-  make_command: (config)->
-    config.qrcode ?= {}
-    cmd = {}
-    cmd.command  =  "qrcode <DATA>"
-    cmd.describe = "generate a QR code"
-    cmd.builder  = (subargs)=>
+  _make_builder:(config)=>
+    (subargs)=>
       subargs.options {
-        "z": { group:"Command-Specific Parameters", alias:["w","size","width"],  number:true, requiresArg:true, default:(config.qrcode.z ? 400), describe:"size (height and width) of the generated image, in pixels#{NAD}"   }
-        "e": { group:"Command-Specific Parameters", alias:["ecl"], choices:["l","m","q","h"], requiresArg:true, default:(config.qrcode.e ? "h"), describe:"size (height and width) of the generated image, in pixels#{NAD}" }
-        "r": { group:"Command-Specific Parameters", alias:["border"], boolean:true, default:(config.qrcode.r ? true), describe:"when true, include a small background-colored border around the image#{NAD}" }
-        "f": { group:"Command-Specific Parameters", alias:["fg","foreground"], type:"string", default:(config.qrcode.f ? "#000000"),defaultDescription:(if config.qrcode.f? then null else "black"), describe:"foreground color as a hex string (e.g. '#FF0000') or an RGB triplet (e.g., 'rgb(255,0,0)')#{NAD}" }
-        "b": { group:"Command-Specific Parameters", alias:["bg","background"], type:"string", default:(config.qrcode.b ? "#FFFFFF"),defaultDescription:(if config.qrcode.f? then null else "white"), describe:"background color as a hex string (e.g. '#00FFFF') or an RGB triplet (e.g., 'rgb(0,255,255)')#{NAD}" }
+        "z": { group:"Command-Specific Parameters", alias:["w","size","width"],  number:true, requiresArg:true, default:(config.qrcode.z ? 400), describe:"size (height and width) of the generated image, in pixels#{@nad}"   }
+        "e": { group:"Command-Specific Parameters", alias:["ecl"], choices:["l","m","q","h"], requiresArg:true, default:(config.qrcode.e ? "h"), describe:"error-correction level, from 'l' is the lowest level, 'h' is the highest level" }
+        "r": { group:"Command-Specific Parameters", alias:["border"], boolean:true, default:(config.qrcode.r ? true), describe:"when true, include a small background-colored border around the image#{@nad}" }
+        "f": { group:"Command-Specific Parameters", alias:["fg","foreground"], type:"string", default:(config.qrcode.f ? "#000000"),defaultDescription:(if config.qrcode.f? then null else "black"), describe:"foreground color as a hex string (e.g. '#FF0000') or an RGB triplet (e.g., 'rgb(255,0,0)')#{@nad}" }
+        "b": { group:"Command-Specific Parameters", alias:["bg","background"], type:"string", default:(config.qrcode.b ? "#FFFFFF"),defaultDescription:(if config.qrcode.f? then null else "white"), describe:"background color as a hex string (e.g. '#00FFFF') or an RGB triplet (e.g., 'rgb(0,255,255)')#{@nad}" }
       }
       subargs.check (argv)=>
-        Shared.handle_extended_help argv
-        Shared.handle_help_and_version argv
+        @_arg_check(argv)
         return true
 
-    cmd.handler = (argv)=>
-      Shared.command_run = true
-      process.nextTick ()=>
-        LOG.info "Generating QR Code..."
-        options = {
-          url: "#{URL_BASE}/data/-/rendition/qr.png"
-          qs: { data: argv.DATA }
-          headers: { "User-Agent":Shared.ua() }
-        }
-        if argv['api-key']?
-          options.headers.Authorization = "da.key=#{argv['api-key']}"
-        for n in ['size','ecl','border','fg','bg','ttl','store']
-          if argv[n]?
-            options.qs[n] = argv[n]
-        LOG.debug "submitting:",options
-        if argv.out?
-          out = fs.createWriteStream(argv.out,'binary')
-        else
-          out = process.stdout
-        req = request.get options
-        req.on 'response', (response)=>
-          unless /^2[0-9][0-9]$/.test response?.statusCode
-            LOG.error "Expected 2XX-series status code. Found #{response?.statusCode}."
-            if not argv['api-key'] and /^401$/.test response?.statusCode
-              LOG.error "The 401 (Unauthorized) response is probably because"
-              LOG.error "you did not supply an API Key."
-              LOG.error "Use '-a <KEY>' to specify a key on the command line,"
-              LOG.error "or run '#{EXE} --xhelp' for more information.\n"
-            process.exit 1
-        req.pipe(out,{encoding:"binary"})
-    return cmd
-}
+  _handler:(argv)=>
+    @log.info "Generating QR Code..."
+    options = {
+      url: "#{@url_base}/data/-/rendition/qr.png"
+      qs: { data: argv.DATA }
+      headers: { "User-Agent":Shared.ua() }
+    }
+    if argv['api-key']?
+      options.headers.Authorization = "da.key=#{argv['api-key']}"
+    for n in ['size','ecl','border','fg','bg','ttl','store']
+      if argv[n]?
+        options.qs[n] = argv[n]
+    @log.debug "submitting:",options
+    if argv.out?
+      out = fs.createWriteStream(argv.out,'binary')
+    else
+      out = process.stdout
+    req = request.get options
+    req.on 'response', (response)=>
+      unless /^2[0-9][0-9]$/.test response?.statusCode
+        @log.error "Expected 2XX-series status code. Found #{response?.statusCode}."
+        if not argv['api-key'] and /^401$/.test response?.statusCode
+          @log.error "The 401 (Unauthorized) response is probably because"
+          @log.error "you did not supply an API Key."
+          @log.error "Use '-a <KEY>' to specify a key on the command line,"
+          @log.error "or run '#{@exe} --xhelp' for more information.\n"
+        process.exit 1
+    req.pipe(out,{encoding:"binary"})
+
+module.exports = new QrCode()

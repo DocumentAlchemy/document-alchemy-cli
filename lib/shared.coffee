@@ -74,9 +74,11 @@ class Shared
       @show_version()
       process.exit(0)
 
-  show_help:()=>
+  show_help:(after_description)=>
     if DESCRIPTION?
       console.log DESCRIPTION
+    if after_description?
+      console.log after_description
     yargs.showHelp()
 
   _ver_str:(include_published=true,joinchar=" ")=>
