@@ -52,6 +52,8 @@ class BaseCommand
     req.on 'response', (response)=>
       unless /^2[0-9][0-9]$/.test response?.statusCode
         @log.error "Expected 2XX-series status code. Found #{response?.statusCode}."
+        if /^400$/.test response?.statusCode
+          @log.error "Response body: #{response.body}"
         if not argv['api-key'] and /^401$/.test response?.statusCode
           @log.error "The 401 (Unauthorized) response is probably because"
           @log.error "you did not supply an API Key."
@@ -69,9 +71,11 @@ class BaseCommand
     req = request.post options
     form = req.form()
     form.append(file_field, fs.createReadStream(file_path))
-    req.on 'response', (response)=>
+    req.on 'response', (response,body)=>
       unless /^2[0-9][0-9]$/.test response?.statusCode
         @log.error "Expected 2XX-series status code. Found #{response?.statusCode}."
+        if /^400$/.test response?.statusCode
+          @log.error "Response body: #{JSON.stringify(body)}"
         if not argv['api-key'] and /^401$/.test response?.statusCode
           @log.error "The 401 (Unauthorized) response is probably because"
           @log.error "you did not supply an API Key."

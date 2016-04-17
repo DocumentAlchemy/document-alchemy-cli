@@ -20,6 +20,8 @@ class QrCode extends BaseCommand
     console.log Shared.wrap """
     The 'qrcode' command generates a PNG image encoding the specified data as QR code by invoking the '/data/-/rendition/qr.png' endpoint.
 
+    Specifically, this endpoint generates "Model 2" QR codes, capable of storing up to 7089 digits, 4296 alphanumeric characters or 2953 bytes (encoded in the ISO-8995-1 character set).
+
     All parameters other than DATA are optional.
 
     The 'size' parameter specifies the height and width of the (always square) image, in pixels. When missing, a 400-by-400 pixel image is generated.
@@ -37,6 +39,59 @@ class QrCode extends BaseCommand
     An optional 'ttl' ("time-to-live") parameter specifies (in seconds) how long the document should be stored. When omitted, a duration of 3600 seconds (one hour) is used by default.
 
     See <https://documentalchemy.com/api-doc> for more information about this endpoint and other document-processing API methods.
+
+    """
+    console.log "\nCOMMAND-SPECIFIC PARAMETERS\n"
+    console.log Shared.wrap """
+      The 'qrcode' command recognizes the following extended parameters.
+
+        -z --size    - Size of the generated image (in pixels). Since QR codes
+                       are square this value specifies both the width and
+                       height of the generated image.
+                       Example: -z 600
+
+        -e --ecl     - The “error correction level” to use when generating
+                       the QR code. Acceptable values are: 'l', 'm', 'q'
+                       and 'h'.
+
+                       At higher levels of error-correction, the "modules"
+                       (boxes) that comprise the QR code are smaller and
+                       more numerous. This allows the data to be encoded
+                       with greater redundancy, but also supports less
+                       encoded data overall
+
+                       At ecl level 'l' it estimated that the code can still
+                       be read when 7%  of the image is unreadable.
+
+                       At ecl level 'm' it estimated that the code can still
+                       be read when 15% of the image is unreadable.
+
+                       At ecl level 'q' it estimated that the code can still
+                       be read when 25% of the image is unreadable.
+
+                       At ecl level 'h' it estimated that the code can still
+                       be read when 30% of the image is unreadable.
+
+                       Example: --ecl q
+
+        -r --border  - When set, a small border will be added around the
+                       QR. This does not change the size of the image as
+                       specifed by '-z' (and hence slightly reduces the size
+                       of the QR-code part of the image.)
+                       Example: --border
+                       Example: --no-border
+
+        -fg --foreground
+        -bg --background
+                     - Foreground (module) and background colors to use when
+                       painting the QR code, as HTML-style hex digits or 'rbg'
+                       strings. Of course, if the contrast between the
+                       foreground and background colors used in the image is
+                       not high enough, QR code readers may have trouble reading
+                       the code.
+
+                       Example: --fg #FF0000
+                       Example: --fg rgb(255,0,0) --bg rgb(0,255,255)
 
     """
     console.log "EXAMPLES\n"

@@ -29,6 +29,80 @@ class Capture extends BaseCommand
     See <https://documentalchemy.com/api-doc> for more information about this endpoint and other document-processing API methods.
 
     """
+    console.log "\nCOMMAND-SPECIFIC PARAMETERS\n"
+    console.log Shared.wrap """
+      The 'capture' command supports the following extended parameters:
+
+        -f --format  - The format of the image to create, defaults to 'png'.
+
+                       Example: -f jpg
+
+        -o --out     - File to write response to.  When missing or '-', the
+                       respsonse document is written to stdout instead.
+
+                       Example: -o foo.pdf
+
+        -w --bw --browser-width
+        -h --bh --browser-height
+                     - The width and height (in pixels) of the browser
+                       "viewport" when the screenshot is captured.
+
+                       When missing, '-w' defaults to 1024.
+
+                       When '-h' is missing, the viewport will be tall
+                       enough to capture the full content of the page.
+
+                       Example: -w 1920
+                       Example: -w 800 -h 600
+
+        -W --iw --image-width
+        -H --ih --image-height
+                     - The width and height (in pixels) of the generated image.
+                       When needed, the "raw" screenshot will be scaled
+                       (preserving the original aspect ratio) until it fits
+                       within the box specified by --iw and --ih.
+
+                       When both --iw and --ih are missing, the raw screenshot
+                       will not be resized.
+
+                       When --iw is specified but --ih is not (or is set to '0'),
+                       the image will be scaled (preserving aspect ratio) until
+                       it is exactly --iw pixels wide.
+
+                       When --ih is specified but --iw is not (or is set to '0'),
+                       the image will be scaled (preserving aspect ratio) until
+                       it is exactly --ih pixels tall.
+
+                       When both --iw and --ih are specified, the image will be
+                       scaled until ONE of the two dimensions is exactly as
+                       specified (once again, while preserving the original
+                       apsect ratio).
+
+                       Example: --iw 800
+                       Example: --iw 900 --ih 600
+
+        -E --ei --enlarge
+                     - By default, the original image is only scaled DOWN in
+                       size. As long as original viewport (bw x bh) fits within
+                       the requested image size (iw x ih) the image will be
+                       left alone.
+
+                       When --enlarge is set, raw images smaller than the
+                       requested image size will be scaled UP until at least
+                       one dimension matches the requested value (preserving
+                       aspect ratio).
+
+                       Example: --enlarge
+                       Example: --no-enlarge
+
+        -R --header  - An HTTP request header to submit with the request, in the
+                       form "name: value".  May be repeated multiple times to set
+                       multiple header values.
+
+                       Example: -R 'cookie: foo=bar; foo2=bar2'
+                                -R 'X-Special: TRUE'
+
+    """
     console.log "EXAMPLES\n"
     console.log Shared.wrap """
     The command:
@@ -42,10 +116,11 @@ class Capture extends BaseCommand
     - 'dO6M2p9sKRMGQYub' is your DocumentAlchemy API Key
     will generate a file named 'capture.png' containing a screenshot of 'https://google.com/' at the default resolution and size.
 
-    > #{@exe} capture https://google.com/ -o capture.png \\
-        -bw 1200 -iw 400 -a dO6M2p9sKRMGQYub
 
     The command:
+
+    > #{@exe} capture https://google.com/ -o capture.png \\
+        -bw 1200 -iw 400 -a dO6M2p9sKRMGQYub
 
     where:
     - 'https://google.com/' is the URL to capture

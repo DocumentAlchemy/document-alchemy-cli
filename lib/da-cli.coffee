@@ -91,11 +91,12 @@ class DaCli
     yargs.option "o",       { global:true, group:"Common Parameters", alias:"out",     type:"string", requiresArg:true, default:config["out"],             describe:"file to write to; when absent or '-', stdout is used#{NAD}" }
     yargs.option "s",       { global:true, group:"Common Parameters", alias:"store",   boolean:true,                    default:(config["store"] ? false), describe:"when true, save the generated document on the server#{NAD}" }
     yargs.option "t",       { global:true, group:"Common Parameters", alias:"ttl",     number:true,   requiresArg:true, default:config["ttl"],             describe:"time-to-live for the stored image, ignored when --store is false#{NAD}" }
+    yargs.option "p",       { global:true, group:"Common Parameters", alias:"param",   type:"string", requiresArg:true, nargs:2,                           describe:"extra name value pair to be passed with REST call#{NAD}" }
     yargs.option "?",       { global:true, group:"Help & Other Meta-Parameters", alias:"help",    boolean:true,                                                       describe:"show help; may also be used following a command name to get command-specific help#{NAD}" }
     yargs.option "x",       { global:true, group:"Help & Other Meta-Parameters", alias:"xhelp",   boolean:true,                                                       describe:"show detailed help; may also be used following a command name to get extended help on the given command#{NAD}" }
     yargs.option "version", { global:true, group:"Help & Other Meta-Parameters",                  boolean:true,                                                       describe:"show version information#{NAD}" }
-    yargs.option "v",       { global:true, group:"Help & Other Meta-Parameters", alias:"verbose", count:true,                      default:config["verbose"],         describe:"be more chatty; can be repeated#{NAD}" }
-    yargs.option "q",       { global:true, group:"Help & Other Meta-Parameters", alias:"quiet",   boolean:true,                    default:(config["quiet"] ? false), describe:"be less chatty#{NAD}"                  }
+    yargs.option "v",       { global:true, group:"Help & Other Meta-Parameters", alias:"verbose", count:true,                      default:config["verbose"],         describe:"be more chatty; can be repeated up to 4 times for more detail.#{NAD}" }
+    yargs.option "quiet",   { global:true, group:"Help & Other Meta-Parameters",                  boolean:true,                    default:(config["quiet"] ? false), describe:"be less chatty#{NAD}"                  }
     for command in commands
       yargs.command command.make_command(config)
     # yargs.strict()
@@ -206,6 +207,40 @@ class DaCli
       which will generate a 280-by-280 pixel image.
 
       Note that '.documentalchemycli.json' is parsed as a true JSON file--comments and other JavaScript-style code is not allowed.
+
+    """
+    console.log "\nCOMMON PARAMETERS\n"
+    console.log Shared.wrap """
+      There are a handful of command-line arguments that are shared by all commands. These are enumerated below.
+
+        -a --api-key - DocumentAlchemy API key to be submitted with the request.
+                       Example: -a dO6M2p9sKRMGQYub
+
+        -o --out     - File to write response to.  When missing or '-', the
+                       respsonse document is written to stdout instead.
+                       Example: -o foo.pdf
+
+        -s --store   - When used, rather than returning the generated document,
+                       the document will be stored in the server's (temporary)
+                       file store.  In this case a JSON document containing a
+                       identifier ('id') and a URL for the stored file ('href')
+                       will be returned instead.
+                       Example: --store
+                       Example: --no-store
+
+        -t --ttl     - When 'store' is set, this parameter specifies the duration
+                       (in seconds) that the document should be stored for.
+                       The default is 3600 (one hour). The maximum value is
+                       86400 (one day).
+                       Example: -t 14400
+
+        -p --param   - This argument specifies an "extra" query string or request
+                       body parameter to send to the underlying REST method with
+                       the rest of the request. This is useful when you'd like to
+                       set a parameter that is not otherwise exposed in the CLI.
+                       This argument must be followed by TWO values.  '--param'
+                       may be repeated more than once to set more than one value.
+                       Example: -p name1 value1 -p "name two" "value two"
 
     """
     console.log "\nABOUT DOCUMENT ALCHEMY\n"
