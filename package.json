@@ -11,7 +11,7 @@
   "license"                : "MIT",
   "main"                   : "lib/da-cli.js",
   "scripts"                : {"test": "make test" },
-  "directories"            : { "lib":"lib", "bin":"bin" },
+  "directories"            : { "lib":"lib", "bin":"bin", "doc":"docs" },
   "preferGlobal"           : true,
   "dependencies": {
     "inote-util"               : "^0.9",

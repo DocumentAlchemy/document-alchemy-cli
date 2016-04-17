@@ -34,6 +34,11 @@ For even more information, use the flag `--xhelp` rather than just `--help`.
 
 For even more information, visit us at <https://documentalchemy.com/>
 
+### The Commands
+
+The functionality of `document-alchemy` is divided into several "sub-commands".  Currently there are three sub-commands provided: `convert`, `qrcode` and `capture`.
+
+
 ### Licensing
 
 This module is made available under an MIT license, as described in [LICENSE.TXT](https://github.com/DocumentAlchemy/document-alchemy-cli/blob/master/LICENSE.TXT).
