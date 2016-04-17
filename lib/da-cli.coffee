@@ -196,7 +196,7 @@ class DaCli
 
       and save it as '.documentalchemycli.json' in your home directory.
 
-      To set commmand-specific parameters, place them in a map under the name of the command.  For instance, the 'qrcode' command supports a `size` parameter which controls the size of the generate image (in pixels).  To set this value in the configuration file, you may use:
+      To set command-specific parameters, place them in a map under the name of the command.  For instance, the 'qrcode' command supports a `size` parameter which controls the size of the generate image (in pixels).  To set this value in the configuration file, you may use:
 
       { "api-key":"dO6M2p9sKRMGQYub", "qrcode": { "size":280 } }
 
@@ -217,7 +217,7 @@ class DaCli
                        Example: -a dO6M2p9sKRMGQYub
 
         -o --out     - File to write response to.  When missing or '-', the
-                       respsonse document is written to stdout instead.
+                       response document is written to stdout instead.
                        Example: -o foo.pdf
 
         -s --store   - When used, rather than returning the generated document,

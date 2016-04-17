@@ -4,6 +4,9 @@ For your convenience, the following is a capture of the output you'll see when y
 
 (Note that this might not reflect the absolute latest version of the in-app documentation.  Use `document-alchemy convert --xhelp` for the real thing.)
 
+For more information about the DocumentAlchemy CLI project, see <https://github.com/documentalchemy/document-alchemy-cli>.
+
+For more information about DocumentAlchemy, see <https://documentalchemy.com/>. There you can also find detailed API documentation for [the document conversion endpoint](https://documentalchemy.com/api-doc#!/Document_Processing/post_document_rendition_format), a large number of [specialized document conversion methods](https://documentalchemy.com/api-doc#/Type-specific_Specializations), and [online document conversion tools](https://documentalchemy.com/demo) that provide a live demonstration of many of those API methods.
 
 ```
 Command-line interface to the DocumentAlchemy API.

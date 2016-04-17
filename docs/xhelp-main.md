@@ -1,8 +1,12 @@
-# "Extended Help" for the DocumentAlchemy CLI Application
+# "Extended Help" for the DocumentAlchemy CLI
 
 For your convenience, the following is a capture of the output you'll see when you run `document-alchemy --xhelp`.
 
 (Note that this might not reflect the absolute latest version of the in-app documentation.  Use `document-alchemy --xhelp` for the real thing.)
+
+For more information about the DocumentAlchemy CLI project, see <https://github.com/documentalchemy/document-alchemy-cli>.
+
+For more information about DocumentAlchemy, see <https://documentalchemy.com/>.
 
 ```
 Command-line interface to the DocumentAlchemy API.
@@ -85,7 +89,7 @@ CONFIGURATION
 
   and save it as '.documentalchemycli.json' in your home directory.
 
-  To set commmand-specific parameters, place them in a map under the name of
+  To set command-specific parameters, place them in a map under the name of
   the command.  For instance, the 'qrcode' command supports a `size` parameter
   which controls the size of the generate image (in pixels).  To set this
   value in the configuration file, you may use:
@@ -111,7 +115,7 @@ COMMON PARAMETERS
                    Example: -a dO6M2p9sKRMGQYub
 
     -o --out     - File to write response to.  When missing or '-', the
-                   respsonse document is written to stdout instead.
+                   response document is written to stdout instead.
                    Example: -o foo.pdf
 
     -s --store   - When used, rather than returning the generated document,

@@ -4,6 +4,9 @@ For your convenience, the following is a capture of the output you'll see when y
 
 (Note that this might not reflect the absolute latest version of the in-app documentation.  Use `document-alchemy capture --xhelp` for the real thing.)
 
+For more information about the DocumentAlchemy CLI project, see <https://github.com/documentalchemy/document-alchemy-cli>.
+
+For more information about DocumentAlchemy, see <https://documentalchemy.com/>. There you can also find detailed API documentation for [the web screen capture endpoint](https://documentalchemy.com/api-doc#!/Type-specific_Specializations/get_url_document_rendition_image) as well as a [web screenshot tool](https://documentalchemy.com/demo/url2png) and [responsive site tester](https://documentalchemy.com/demo/responsive-site-tester) that are backed by that same endpoint.
 
 ```
 Command-line interface to the DocumentAlchemy API.

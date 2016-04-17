@@ -1,9 +1,19 @@
+# "Extended Help" for the `qrcode` command
 
+For your convenience, the following is a capture of the output you'll see when you run `document-alchemy qrcode --xhelp`.
 
+(Note that this might not reflect the absolute latest version of the in-app documentation.  Use `document-alchemy qrcode --xhelp` for the real thing.)
 
+For more information about the DocumentAlchemy CLI project, see <https://github.com/documentalchemy/document-alchemy-cli>.
 
+For more information about DocumentAlchemy, see <https://documentalchemy.com/>.  There you can also find detailed API documentation for [the QR Code generation endpoint](https://documentalchemy.com/api-doc#!/Type-specific_Specializations/get_data_rendition_qr_png) and an [online QR code generator](https://documentalchemy.com/demo/qr-code) that is backed by the same endpoint.
 
-Usage: document-alchemy [OPTIONS] capture <URL> [OPTIONS]
+```
+Command-line interface to the DocumentAlchemy API.
+
+qrcode <DATA> - generate a QR code
+
+Usage: document-alchemy [OPTIONS] qrcode <DATA> [OPTIONS]
 
 Command-Specific Parameters
   -z, -w, --size, --width  size (height and width) of the generated image,
@@ -33,69 +43,6 @@ Help & Other Meta-Parameters
   --version      show version information
   -v, --verbose  be more chatty; can be repeated for more detail
   --quiet        be less chatty
-
-
-Usage: document-alchemy [OPTIONS] capture <URL> [OPTIONS]
-
-Command-Specific Parameters
-  -f, --format                type of image file to create  [choices: "png", "jpg"] [default: "png"]
-  -w, --bw, --browser-width   width of the browser's "viewport", in pixels  [number] [default: 1024]
-  -h, --bh, --browser-height  height of the browser's "viewport", in pixels  [number]
-  -W, --iw, --image-width     width of the generated image, in pixels  [number]
-  -H, --ih, --image-height    height of the generated image, in pixels  [number]
-  -E, --ei, --enlarge         when false, the source image will not be enlarged if it already fits in the specified image width and height.  [boolean] [default: false]
-  -R, --header                HTTP header to include in the request in the form "name: value"; may be repeated.  [string]
-
-Common Parameters
-  -a, --api-key  DocumentAlchemy API key  [string] [default: "403l1zh3dkbakyb9"]
-  -o, --out      file to write to; when absent or '-', stdout is used  [string]
-  -s, --store    when true, save the generated document on the server  [boolean] [default: false]
-  -t, --ttl      time-to-live for the stored image, ignored when --store is false  [number]
-  -p, --param    extra name value pair to be passed with REST call  [string]
-
-Help & Other Meta-Parameters
-  -?, --help     show help; may also be used following a command name to get command-specific help  [boolean]
-  -x, --xhelp    show detailed help; may also be used following a command name to get extended help on the given command  [boolean]
-  --version      show version information  [boolean]
-  -v, --verbose  be more chatty; can be repeated up to 4 times for more detail.  [count]
-  --quiet        be less chatty  [boolean] [default: false]
-
-Examples:
-  document-alchemy capture https://example.com/            capture a screenshot of https://example.com at the default size and resolution, piping result to STDOUT
-  document-alchemy capture https://example.com/ -o eg.png  capture a screenshot of https://example.com at the default size and resolution and save result to eg.png
-
-Usage: document-alchemy [OPTIONS] convert <FILE> [OPTIONS]
-
-Command-Specific Parameters
-  -f, --to, --format  type of rendition to create  [string] [default: "pdf"]
-
-Common Parameters
-  -a, --api-key  DocumentAlchemy API key  [string] [default: "403l1zh3dkbakyb9"]
-  -o, --out      file to write to; when absent or '-', stdout is used  [string]
-  -s, --store    when true, save the generated document on the server  [boolean] [default: false]
-  -t, --ttl      time-to-live for the stored image, ignored when --store is false  [number]
-  -p, --param    extra name value pair to be passed with REST call  [string]
-
-Help & Other Meta-Parameters
-  -?, --help     show help; may also be used following a command name to get command-specific help  [boolean]
-  -x, --xhelp    show detailed help; may also be used following a command name to get extended help on the given command  [boolean]
-  --version      show version information  [boolean]
-  -v, --verbose  be more chatty; can be repeated up to 4 times for more detail.  [count]
-  --quiet        be less chatty  [boolean] [default: false]
-
-Examples:
-  document-alchemy convert foo.docx --to md                     convert an MS Word document to Markdown, piping result to STDOUT
-  document-alchemy convert README.md --to pdf --out README.pdf  convert a Markdown file to PDF, writing the result to README.pdf
-
-
-
-======
-
-
-
-
-Command-line interface to the DocumentAlchemy API.
-qrcode <DATA> - generate a QR code
 
 ABOUT THIS COMMAND
 
@@ -178,7 +125,7 @@ COMMAND-SPECIFIC PARAMETERS
 
     -r --border  - When set, a small border will be added around the
                    QR. This does not change the size of the image as
-                   specifed by '-z' (and hence slightly reduces the size
+                   specified by '-z' (and hence slightly reduces the size
                    of the QR-code part of the image.)
                    Example: --border
                    Example: --no-border
@@ -221,3 +168,5 @@ EXAMPLES
   - 'dO6M2p9sKRMGQYub' is your DocumentAlchemy API Key.
 
   writes a 600x600 PNG image encoding the URL 'http://example.com' to stdout.
+
+```

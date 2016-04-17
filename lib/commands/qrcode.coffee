@@ -76,7 +76,7 @@ class QrCode extends BaseCommand
 
         -r --border  - When set, a small border will be added around the
                        QR. This does not change the size of the image as
-                       specifed by '-z' (and hence slightly reduces the size
+                       specified by '-z' (and hence slightly reduces the size
                        of the QR-code part of the image.)
                        Example: --border
                        Example: --no-border
