@@ -40,7 +40,7 @@ The functionality of `document-alchemy` is divided into several "sub-commands". 
 
 Each command is extensively documented within the application itself. For your convenience we have samples of the in-app help content within the `docs` directory.
 
-Specifically, you'll find the "extended help" message for [the main application](https://github.com/DocumentAlchemy/document-alchemy-cli/blob/master/docs/xhelp-main.md#extended-help-for-the-documentalchemy-cli-application), the [capture command](https://github.com/DocumentAlchemy/document-alchemy-cli/blob/master/docs/xhelp-capture.md#extended-help-for-the-capture-command), the [convert command](https://github.com/DocumentAlchemy/document-alchemy-cli/blob/master/docs/xhelp-convert.md#extended-help-for-the-convert-command) and the [qrcode command](https://github.com/DocumentAlchemy/document-alchemy-cli/blob/master/docs/xhelp-qrcode.md#extended-help-for-the-qrcode-command).
+Specifically, you'll find the "extended help" message for [the main application](https://github.com/DocumentAlchemy/document-alchemy-cli/blob/master/docs/xhelp-main.md#extended-help-for-the-documentalchemy-cli), the [capture command](https://github.com/DocumentAlchemy/document-alchemy-cli/blob/master/docs/xhelp-capture.md#extended-help-for-the-capture-command), the [convert command](https://github.com/DocumentAlchemy/document-alchemy-cli/blob/master/docs/xhelp-convert.md#extended-help-for-the-convert-command) and the [qrcode command](https://github.com/DocumentAlchemy/document-alchemy-cli/blob/master/docs/xhelp-qrcode.md#extended-help-for-the-qrcode-command).
 
 ### Licensing
 
