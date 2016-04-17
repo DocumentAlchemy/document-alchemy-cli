@@ -4,7 +4,7 @@
 .SUFFIXES:
 .PHONY: all coffee clean clean-coverage clean-docco clean-docs clean-js clean-markdown clean-module clean-node-modules coverage docco docs fully-clean-node-modules js markdown test spec
 all: full-lint test
-clean: clean-coverage clean-docco clean-docs clean-js clean-node-modules
+clean: clean-coverage clean-docco clean-docs clean-js clean-node-modules clean-test-module-install clean-module
 really-clean: clean really-clean-node-modules
 ################################################################################
 
@@ -37,7 +37,11 @@ clean-js:
 NPM_EXE ?= npm
 PACKAGE_JSON ?= package.json
 NODE_MODULES ?= node_modules
+MODULE_DIR ?= module
 NPM_ARGS ?= --silent
+PACKAGE_VERSION ?= $(shell $(NODE_EXE) -e "console.log(require('./$(PACKAGE_JSON)').version)")
+PACKAGE_NAME ?= $(shell $(NODE_EXE) -e "console.log(require('./$(PACKAGE_JSON)').name)")
+PACKAGE_DIR ?= $(PACKAGE_NAME)-$(PACKAGE_VERSION)
 #------------------------------------------------------------------------------
 $(NODE_MODULES): $(PACKAGE_JSON)
 	$(NPM_EXE) $(NPM_ARGS) prune
@@ -49,8 +53,24 @@ INSTALL:
 	make install
 really-clean-node-modules:
 	@rm -rf $(NODE_MODULES)
+module: js test
+	mkdir -p $(MODULE_DIR)
+	cp -r lib $(MODULE_DIR)
+	cp -r bin $(MODULE_DIR)
+	cp $(PACKAGE_JSON) $(MODULE_DIR)
+	cp README.md $(MODULE_DIR)
+	cp LICENSE.TXT $(MODULE_DIR)
+	mv module $(PACKAGE_DIR)
+	tar -czf $(PACKAGE_DIR).tgz $(PACKAGE_DIR)
+test-module-install: clean-test-module-install module
+	mkdir ../testing-module-install; cd ../testing-module-install; npm install "$(CURDIR)/$(PACKAGE_DIR).tgz"; node -e "require('assert').ok((require('document-alchemy-cli')).DocumentAlchemyCLI)" && cd $(CURDIR) && rm -r $(RM_DASH_I) ../testing-module-install && echo "It worked!"
+#------------------------------------------------------------------------------
 clean-node-modules:
 	@$(NPM_EXE) $(NPM_ARGS) prune &
+clean-test-module-install:
+	rm -rf ../testing-module-install
+clean-module:
+	rm -rf $(MODULE_DIR)
 ################################################################################
 
 ################################################################################

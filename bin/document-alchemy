@@ -1,20 +1,5 @@
-#!/bin/bash
-# This script will run lib/da-cli.coffee or .js.
-COFFEE_EXE=`which coffee || which coffee.exe`
-NODE_EXE=`which node || which node.exe`
-# Resolve the full path to the directory that contains this script (respecting symlinks).
-# via: http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do
-  BIN_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$BIN_DIR/$SOURCE"
-done
-BIN_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-BASEDIR="$( cd "$BIN_DIR" && cd .. && pwd )"
-# Now BASEDIR is the project or module root directory
-if [ -x "$COFFEE_EXE" ]; then
-  "$COFFEE_EXE" "$BASEDIR/lib/da-cli.coffee" "$@"
-else
-  "$NODE_EXE" "$BASEDIR/lib/da-cli.js" "$@"
-fi
+#!/usr/bin/env node
+var path = require('path');
+var fs   = require('fs');
+var dir  = path.join(path.dirname(fs.realpathSync(__filename)), '..', 'lib');
+require(path.join(dir,'document-alchemy-cli')).main()

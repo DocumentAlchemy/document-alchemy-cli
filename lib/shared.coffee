@@ -65,7 +65,6 @@ class Shared
         LOG.error "Extended help not availble for command '#{cmd_name}'."
         process.exit(1)
 
-
   handle_help_and_version: (argv)=>
     if argv.help
       @show_help()
