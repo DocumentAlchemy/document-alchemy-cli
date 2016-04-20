@@ -6,7 +6,7 @@ For your convenience, the following is a capture of the output you'll see when y
 
 For more information about the DocumentAlchemy CLI project, see <https://github.com/documentalchemy/document-alchemy-cli>.
 
-For more information about DocumentAlchemy, see <https://documentalchemy.com/>.  There you can also find detailed API documentation for [the QR Code generation endpoint](https://documentalchemy.com/api-doc#!/Type-specific_Specializations/get_data_rendition_qr_png) and an [online QR code generator](https://documentalchemy.com/demo/qr-code) that is backed by the same endpoint.
+For more information about DocumentAlchemy, see <https://documentalchemy.com/>.
 
 ```
 Command-line interface to the DocumentAlchemy API.

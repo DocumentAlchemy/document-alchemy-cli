@@ -1,6 +1,6 @@
 {
   "name"                   : "document-alchemy-cli",
-  "version"                : "1.1.0",
+  "version"                : "1.1.1",
   "app-name"               : "document-alchemy",
   "published"              : "20 April 2016",
   "description"            : "Command-line interface to the DocumentAlchemy API.",
