@@ -143,6 +143,7 @@ class Capture extends BaseCommand
           "ih" :[/^i(mage)?[-_\.]?h(eight)?$/i, Util.to_int]
           "ei" :[/^e(nlarge)?([-_\.]?i(mage)?)?$/i, Util.truthy_string]
           "R"  :/^(heade)?r$/i
+          "format"  :/^format$/i
         }
       )
     ]

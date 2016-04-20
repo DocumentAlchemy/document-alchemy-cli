@@ -7,7 +7,7 @@ BaseCommand             = require(path.join(LIB_DIR,"commands","_base-command"))
 
 class Debug extends BaseCommand
 
-  _command:()=>"debug>"
+  _command:()=>"debug"
 
   _describe:()=>false
 
