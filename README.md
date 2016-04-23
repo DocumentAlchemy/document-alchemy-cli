@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/documentalchemy/document-alchemy-cli.svg?branch=master)](https://travis-ci.org/documentalchemy/document-alchemy-cli) [![Dependencies](https://david-dm.org/documentalchemy/document-alchemy-cli.svg)](https://npmjs.org/package/document-alchemy-cli) [![NPM version](https://badge.fury.io/js/document-alchemy-cli.svg)](https://badge.fury.io/js/document-alchemy-cli)
+[![Build Status](https://travis-ci.org/DocumentAlchemy/document-alchemy-cli.svg?branch=master)](https://travis-ci.org/DocumentAlchemy/document-alchemy-cli) [![Dependencies](https://david-dm.org/documentalchemy/document-alchemy-cli.svg)](https://npmjs.org/package/document-alchemy-cli) [![NPM version](https://badge.fury.io/js/document-alchemy-cli.svg)](https://badge.fury.io/js/document-alchemy-cli)
 
 ## About This Module
 
