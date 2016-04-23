@@ -70,7 +70,11 @@ class BaseCommand
       out = process.stdout
     req = request.post options
     form = req.form()
-    form.append(file_field, fs.createReadStream(file_path))
+    if Array.isArray(file_path)
+      for file in file_path
+        form.append(file_field, fs.createReadStream(file), file)
+    else
+      form.append(file_field, fs.createReadStream(file_path), file_path)
     req.on 'response', (response,body)=>
       unless /^2[0-9][0-9]$/.test response?.statusCode
         @log.error "Expected 2XX-series status code. Found #{response?.statusCode}."
