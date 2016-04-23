@@ -18,7 +18,22 @@ class Split extends BaseCommand
     console.log Shared.wrap """
     The 'split' command takes a PDF document and returns a ZIP-archive containing a set of PDF documents, one for each page of the original document.  It is backed by the /document/-/rendition/pages.zip endpoint.
 
-    There are no command-specific parameters for `split`. It simply accepts a single PDF file to be split up.
+    """
+    console.log "\nCOMMAND-SPECIFIC PARAMETERS\n"
+    console.log Shared.wrap """
+      The 'split' command recognizes the following extended parameter:
+
+        -r --range   - Page range to include the generated archive.
+                       This parameter accepts a comma-delimited list
+                       of the following:
+                        - Single Pages (e.g., 3)
+                        - Page Ranges (e.g., 3-5)
+                        - 'last' (e.g., 'last')
+                        - 'last-N' (e.g., 'last-3')
+                        - 'even', 'odd' (e.g., 'even')
+                        - !<TERM> (e.g., '!3-5')
+                       See <https://documentalchemy.com/api-doc> for
+                       further details.
 
     By default, this command will pipe the generated document to stdout.  The 'out' parameter can be used to specify a file instead.
 
@@ -54,6 +69,9 @@ class Split extends BaseCommand
       subargs.usage("Usage: #{@exe} [OPTIONS] split <FILE>")
       subargs.example("#{@exe} split IN.pdf -o OUT.zip","#{@nad}generates OUT.zip, containing each page of IN.pdf as stand-alone PDF files.")
       subargs.nargs 1
+      subargs.options {
+        "r": { group:"Command-Specific Parameters", alias:["range"],  type:"string", requiresArg:true, describe:"page range to include in the archive#{@nad}"   }
+      }
       subargs.check (argv)=>
         @_arg_check(argv)
         return true

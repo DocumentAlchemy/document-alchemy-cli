@@ -14,6 +14,9 @@ Command-line interface to the DocumentAlchemy API.
 split <FILE> - break a PDF document into collection of individual pages
 Usage: document-alchemy [OPTIONS] split <FILE>
 
+Command-Specific Parameters
+  -r, --range  page range to include in the archive
+
 Common Parameters
   -a, --api-key  DocumentAlchemy API key
   -o, --out      file to write to; when absent or '-', stdout is used
@@ -41,8 +44,21 @@ ABOUT THIS COMMAND
   containing a set of PDF documents, one for each page of the original
   document.  It is backed by the /document/-/rendition/pages.zip endpoint.
 
-  There are no command-specific parameters for `split`. It simply accepts a
-  single PDF file to be split up.
+COMMAND-SPECIFIC PARAMETERS
+
+    The 'split' command recognizes the following extended parameter:
+
+      -r --range   - Page range to include the generated archive.
+                     This parameter accepts a comma-delimited list
+                     of the following:
+                      - Single Pages (e.g., 3)
+                      - Page Ranges (e.g., 3-5)
+                      - 'last' (e.g., 'last')
+                      - 'last-N' (e.g., 'last-3')
+                      - 'even', 'odd' (e.g., 'even')
+                      - !<TERM> (e.g., '!3-5')
+                     See <https://documentalchemy.com/api-doc> for
+                     further details.
 
   By default, this command will pipe the generated document to stdout.  The
   'out' parameter can be used to specify a file instead.
