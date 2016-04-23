@@ -2,6 +2,10 @@
 
 This file documents the major changes in each release of the document-alchemy-cli module.
 
+### Version 1.2.1 - 22 April 2016
+
+ * fix `--version` flag
+
 ### Version 1.2.0 - 22 April 2016
 
  * `join` command added for combining MS Office and PDF documents into a single PDF file.

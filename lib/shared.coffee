@@ -66,11 +66,11 @@ class Shared
         process.exit(1)
 
   handle_help_and_version: (argv)=>
-    if argv.help
-      @show_help()
-      process.exit(0)
-    else if argv.version
+    if argv.version
       @show_version()
+      process.exit(0)
+    else if argv.help
+      @show_help()
       process.exit(0)
 
   show_help:(after_description)=>

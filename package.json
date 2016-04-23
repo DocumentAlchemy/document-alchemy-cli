@@ -1,8 +1,8 @@
 {
   "name"                   : "document-alchemy-cli",
-  "version"                : "1.2.0",
+  "version"                : "1.2.1",
   "app-name"               : "document-alchemy",
-  "published"              : "20 April 2016",
+  "published"              : "22 April 2016",
   "description"            : "Command-line interface to the DocumentAlchemy API.",
   "keywords"               : ["document","convert","screen capture","thumbnail","transform","PDF","Microsoft Office","MS Word","docx","MS Excel","xlsx","MS PowerPoint","pptx","command line","terminal"],
   "homepage"               : "https://documentalchemy.com",
